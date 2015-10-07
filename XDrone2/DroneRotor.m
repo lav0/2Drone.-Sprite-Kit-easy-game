@@ -36,6 +36,8 @@
         forced = NO;
         self.power = 13;
         self.physicsBody.mass = 1;
+        
+        self.physicsBody.categoryBitMask = rotorBitMask;
     }
     return self;
 }

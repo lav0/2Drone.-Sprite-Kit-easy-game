@@ -81,6 +81,10 @@
     
     MainScene *scene0 = [MainScene sceneWithSize:skView.bounds.size];
     scene0.scaleMode = SKSceneScaleModeAspectFill;
+    scene0.viewControllerDelegate = self;
+    
+    skView.multipleTouchEnabled = YES;
+    //self.gameOverView.backgroundColor = [UIColor brownColor];
     
     [skView presentScene:scene0];
     
@@ -126,6 +130,24 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+-(void)eventWasted
+{
+    [self shakeFrame];
+}
+
+- (void) shakeFrame
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    [animation setDuration:0.05];
+    [animation setRepeatCount:4];
+    [animation setAutoreverses:YES];
+    [animation setFromValue:[NSValue valueWithCGPoint:
+                             CGPointMake([self.view  center].x - 4.0f, [self.view  center].y)]];
+    [animation setToValue:[NSValue valueWithCGPoint:
+                           CGPointMake([self.view  center].x + 4.0f, [self.view  center].y)]];
+    [[self.view layer] addAnimation:animation forKey:@"position"];
 }
 
 @end

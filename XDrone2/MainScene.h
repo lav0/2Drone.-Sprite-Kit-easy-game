@@ -8,6 +8,12 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+@protocol SceneDelegate <NSObject>
+- (void) eventWasted;
+@end
+
 @interface MainScene : SKScene<SKPhysicsContactDelegate>
+
+@property (unsafe_unretained, nonatomic) id<SceneDelegate> viewControllerDelegate;
 
 @end
