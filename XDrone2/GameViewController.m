@@ -11,7 +11,8 @@
 #import "MainScene.h"
 
 @interface GameViewController ()
-@property (strong, nonatomic) GameScene *main_scene;
+@property (strong, nonatomic) MainScene *main_scene;
+@property (weak, nonatomic) IBOutlet UIButton *resetButton;
 @end
 
 @implementation SKScene (Unarchive)
@@ -64,7 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Configure the view.
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;
@@ -79,16 +80,23 @@
     // Present the scene.
     [skView presentScene:scene];
     
-    MainScene *scene0 = [MainScene sceneWithSize:skView.bounds.size];
+    skView.multipleTouchEnabled = YES;
+    [self.resetButton addTarget:self
+                         action:@selector(buttonClick)
+               forControlEvents:UIControlEventTouchUpInside];
+    
+    //self.gameOverView.backgroundColor = [UIColor brownColor];
+    [self initMainScene];
+}
+
+- (void)initMainScene
+{
+    MainScene *scene0 = [MainScene sceneWithSize:self.view.bounds.size];
     scene0.scaleMode = SKSceneScaleModeAspectFill;
     scene0.viewControllerDelegate = self;
     
-    skView.multipleTouchEnabled = YES;
-    //self.gameOverView.backgroundColor = [UIColor brownColor];
-    
-    [skView presentScene:scene0];
-    
-    self.main_scene = scene;
+    self.main_scene = scene0;
+    [(SKView*)self.view presentScene:self.main_scene];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -135,6 +143,11 @@
 -(void)eventWasted
 {
     [self shakeFrame];
+}
+
+-(void)buttonClick
+{
+    [self initMainScene];
 }
 
 - (void) shakeFrame
